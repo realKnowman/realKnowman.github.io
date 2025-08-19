@@ -563,9 +563,8 @@
       </div>
 
       <div class="col-lg-7">
-<form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+<form id="contact-form">
   <div class="row gy-4">
-
     <!-- Name Field -->
     <div class="col-md-6">
       <label for="name-field" class="pb-2">Your Name</label>
@@ -598,9 +597,9 @@
 
       <button type="submit">Send Message</button>
     </div>
-
   </div>
 </form>
+
 
 
 
@@ -655,5 +654,36 @@
   <script src="assets/js/main.js"></script>
 
 </body>
+
+<!-- Add this script before the closing </body> tag -->
+<script type="text/javascript">
+  // Initialize EmailJS with your user ID
+  emailjs.init("woNZCLsMWAozKCupB"); // Replace with your EmailJS user ID
+
+  // Get the form element
+  const form = document.getElementById('contact-form');
+
+  // Handle form submission
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();  // Prevent the form from reloading the page
+
+    // Show loading message
+    document.querySelector('.loading').style.display = 'block';
+
+    // Use EmailJS to send the form data
+    emailjs.sendForm('service_ln4pdzn', 'template_22xru3p', form)
+      .then(function (response) {
+        console.log('SUCCESS', response);
+        document.querySelector('.loading').style.display = 'none';
+        document.querySelector('.sent-message').style.display = 'block';
+        form.reset();  // Reset form fields
+      }, function (error) {
+        console.log('FAILED', error);
+        document.querySelector('.loading').style.display = 'none';
+        document.querySelector('.error-message').style.display = 'block';
+        document.querySelector('.error-message').textContent = 'Failed to send message. Please try again later.';
+      });
+  });
+</script>
 
 </html>
